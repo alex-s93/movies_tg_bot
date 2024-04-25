@@ -10,3 +10,5 @@ It takes us possibilities to search by:
 
 Also, users can watch the most popular search queries.
 Enjoy it!
+
+P.S.: For use don't remember to install all required dependencies from requirements.txt file :)
