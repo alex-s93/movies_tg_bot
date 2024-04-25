@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ movie.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .movie-container {
+            display: flex;
+            align-items: flex-start;
+            max-width: 800px;
+            margin: auto auto auto 100px;
+        }
+
+        .poster-container {
+            flex: 0 0 auto;
+            margin-right: 20px;
+            margin-top: 20px;
+        }
+
+        .poster-image {
+            width: auto;
+            height: auto;
+            max-height: 300px;
+            cursor: pointer;
+        }
+
+        .description-container {
+            flex: 1 1 auto;
+        }
+
+        .description {
+            width: 100%;
+            margin-top: 20px;
+            max-width: 500px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content {
+            margin: 10% auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+        }
+
+        .modal-image {
+            width: 100%;
+            height: auto;
+        }
+
+        .close {
+            color: white;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+            font-size: 35px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="movie-container">
+    <div class="poster-container">
+        <img class="poster-image" src="{{ movie.poster }}" alt="Poster" onclick="openModal('{{ movie.poster }}')">
+    </div>
+    <div class="description-container">
+        <h1>{{ movie.title }}</h1>
+        <table>
+            <tbody>
+            <tr>
+                <td><b>Year</b></td>
+                <td>{{ movie.year }}</td>
+            </tr>
+            <tr>
+                <td><b>Genres</b></td>
+                <td>{{ movie.genres | join(', ') }}</td>
+            </tr>
+            <tr>
+                <td><b>Rating</b></td>
+                <td>IMDB: {{ movie.rating }}</td>
+            </tr>
+            <tr>
+                <td><b>Runtime</b></td>
+                <td>{{ movie.runtime }} minute(s)</td>
+            </tr>
+
+            <tr>
+                <td><b>Cast</b></td>
+                <td>{{ movie.cast | join(', ') }}</td>
+            </tr>
+            <tr>
+                <td><b>Directors</b></td>
+                <td>{{ movie.directors | join(', ') }}</td>
+            </tr>
+
+            <tr>
+                <td><b>Awards</b></td>
+                <td>{{ movie.awards }}</td>
+            </tr>
+            <tr>
+                <td><b>Languages</b></td>
+                <td>{{ movie.languages | join(', ')}}</td>
+            </tr>
+            <tr>
+                <td><b>Type</b></td>
+                <td>{{ movie.type }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="description">
+            <h3>Description:</h3>
+            <p>{{ movie.plot }}</p>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="img01">
+</div>
+
+<script>
+    document.querySelector('.poster-image').addEventListener('click', function () {
+        this.classList.toggle('enlarged');
+    });
+
+    function openModal(src) {
+        var modal = document.getElementById("myModal");
+        var modalImg = document.getElementById("img01");
+        modal.style.display = "block";
+        modalImg.src = src;
+    }
+
+    function closeModal() {
+        var modal = document.getElementById("myModal");
+        modal.style.display = "none";
+    }
+</script>
+
+</body>
+</html>
