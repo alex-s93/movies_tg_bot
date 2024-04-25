@@ -1,5 +1,5 @@
 # Introducion
-@ICHbinMovieBot
+[@ICHbinMovieBot](https://t.me/ICHbinMovieBot)
 
 It's a simple TG bot for searching films by different search criteria. 
 We are given the ability to search by:
