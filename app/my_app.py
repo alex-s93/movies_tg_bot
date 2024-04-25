@@ -195,7 +195,8 @@ class MyApp:
 
         # START: Search by genres functionality
         @self.dp.callback_query(lambda c: c.data == Opt.Meta.genres)
-        async def process_genres_callback_button(callback_query: types.CallbackQuery, data_format=Opt.Meta.genre,
+        async def process_genres_callback_button(callback_query: types.CallbackQuery, state: FSMContext,
+                                                 data_format=Opt.Meta.genre,
                                                  submit_btn=Opt.Meta.submit):
             data = await self.dp.storage.get_data(Ses.session)
             genres = data.get(Ses.genres)
@@ -254,14 +255,14 @@ class MyApp:
 
         # START: Search by year and genres functionality
         @self.dp.callback_query(lambda c: c.data == Opt.Meta.year_genres)
-        async def process_year_genres_callback_button(callback_query: types.CallbackQuery):
+        async def process_year_genres_callback_button(callback_query: types.CallbackQuery, state: FSMContext):
             await process_years_callback_button(callback_query, data_format=Opt.Meta.yg_year)
 
         @self.dp.callback_query(lambda c: c.data.startswith(Opt.Meta.yg_year.format("")))
         async def process_yg_year_selection(callback_query: types.CallbackQuery, state: FSMContext):
             year = callback_query.data.split("_")[1]
             await state.update_data(year=year)
-            await process_genres_callback_button(callback_query, data_format=Opt.Meta.yg_genre,
+            await process_genres_callback_button(callback_query, state, data_format=Opt.Meta.yg_genre,
                                                  submit_btn=Opt.Meta.yg_submit)
 
         # END: Search by year and genres functionality
@@ -389,7 +390,7 @@ class MyApp:
             selected_genres = data.get(Ses.selected_genres, [])
             if len(selected_genres) == 0:
                 return await callback_query.message.answer(text=Msg.genres_selection_err)
-            return sorted(selected_genres)
+            return sorted(set(selected_genres))
 
         def sort_format_actors(actors):
             return sorted([" ".join(a.split()) for a in actors])
