@@ -222,6 +222,8 @@ class MyApp:
         async def process_submit_button(callback_query: types.CallbackQuery, state: FSMContext):
             data = await state.get_data()
             selected_genres = await selected_genres_validation(callback_query, data)
+            if len(selected_genres) == 0:
+                return await callback_query.message.answer(text=Msg.genres_selection_err)
 
             current_page = await get_current_page(state)
             amount = await get_amount()
@@ -388,8 +390,6 @@ class MyApp:
 
         async def selected_genres_validation(callback_query: types.CallbackQuery, data):
             selected_genres = data.get(Ses.selected_genres, [])
-            if len(selected_genres) == 0:
-                return await callback_query.message.answer(text=Msg.genres_selection_err)
             return sorted(set(selected_genres))
 
         def sort_format_actors(actors):
