@@ -393,7 +393,7 @@ class MyApp:
             return sorted(set(selected_genres))
 
         def sort_format_actors(actors):
-            return sorted([" ".join(a.split()) for a in actors])
+            return sorted([" ".join(a.split()).title() for a in actors])
 
         async def try_again_if_0_films(callback_object: types.CallbackQuery | types.Message, state: FSMContext,
                                        func):
